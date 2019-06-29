@@ -69,7 +69,7 @@ public class InCallServiceImpl extends InCallService {
                 new StatusBarNotifier(context, contactInfoCache),
                 contactInfoCache,
                 new ProximitySensor(context, AudioModeProvider.getInstance())
-                );
+        );
         InCallPresenter.getInstance().onServiceBind();
         InCallPresenter.getInstance().maybeStartRevealAnimation(intent);
         TelecomAdapter.getInstance().setInCallService(this);
