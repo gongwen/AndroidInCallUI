@@ -1,5 +1,7 @@
 # AndroidInCallUI(所有源码均基于Android-marshmallow-release版本 )
 
+#####此项目的目的是学习Android InCallUI系统源码
+
 ## module：
 #### 引入即可使用
 ```
@@ -48,6 +50,9 @@ implementation project(':incallui')
 ##### [com.google.common](https://github.com/google/guava)
 ##### [Telephony](https://android.googlesource.com/platform/packages/services/Telephony/)
 ##### [com.android.common.io](https://android.googlesource.com/platform/frameworks/ex/+/refs/heads/marshmallow-release/common/java/com/android/common/io/)
+
+##### [guaua](https://github.com/google/guava)
+##### [libphonenumber](https://github.com/google/libphonenumber)
 
 ## 遇到的问题
 ### [Use androidx.* artifacts option is disable in Android Studio when create new project](https://stackoverflow.com/questions/56752092/use-androidx-artifacts-option-is-disable-in-android-studio-when-create-new-pro)
