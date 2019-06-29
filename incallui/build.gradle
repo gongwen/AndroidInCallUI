@@ -1,0 +1,38 @@
+apply from: '../constants.gradle'
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion project.ext.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion project.ext.minSdkVersion
+        targetSdkVersion project.ext.targetSdkVersion
+        versionCode project.ext.versionCode
+        versionName project.ext.versionName
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    // Gradle automatically adds 'android.test.runner' as a dependency.
+    useLibrary 'android.test.runner'
+    useLibrary 'android.test.base'
+    useLibrary 'android.test.mock'
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    compile "com.android.support:support-v4:$supportLibraryVersion"
+
+    implementation project(':com_android_contacts_common')
+    implementation project(':com_android_phone_common')
+
+    implementation 'com.googlecode.libphonenumber:libphonenumber:8.10.14'
+    implementation 'com.googlecode.libphonenumber:geocoder:2.120'
+    implementation 'com.google.guava:guava:28.0-android'
+
+}
