@@ -1,13 +1,13 @@
-# AndroidInCallUI
+# AndroidInCallUI(所有源码均基于Android-marshmallow-release版本 )
 
-##module：
-### 引入即可使用
+## module：
+#### 引入即可使用
 ```
 implementation project(':com_android_common')
 implementation project(':com_android_phone_common')
 implementation project(':com_android_vcard')
 ```
-### 需要额外引入第三方依赖
+#### 需要额外引入第三方依赖
 ```
 implementation project(':com_android_contacts_common')
 implementation "com.android.support:appcompat-v7:$supportLibraryVersion"
@@ -37,10 +37,10 @@ implementation project(':incallui')
 #### [telephony]strings.xml内容去重
     
 ## 参考自：
-### System App
+### System App Source Code
 ##### [InCallUI](https://android.googlesource.com/platform/packages/apps/InCallUI/+/marshmallow-release)
 ##### [Dialer](https://android.googlesource.com/platform/packages/apps/Dialer/+/refs/heads/marshmallow-release/)
-### Module
+### Module Source Code
 ##### [com.android.common](https://android.googlesource.com/platform/frameworks/ex/+/marshmallow-release/common/java/com/android/common/)
 ##### [com.android.phone.common](https://android.googlesource.com/platform/packages/apps/PhoneCommon/+/refs/heads/marshmallow-release)
 ##### [com.android.vcard](https://android.googlesource.com/platform/frameworks/opt/vcard/+/refs/heads/marshmallow-release)
