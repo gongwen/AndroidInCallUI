@@ -26,13 +26,12 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    compile "com.android.support:support-v4:$supportLibraryVersion"
+    implementation "com.android.support:support-v4:$supportLibraryVersion"
 
     implementation project(':com_android_contacts_common')
     implementation project(':com_android_phone_common')
 
-    implementation 'com.googlecode.libphonenumber:libphonenumber:8.10.14'
-    implementation 'com.googlecode.libphonenumber:geocoder:2.120'
-    implementation 'com.google.guava:guava:28.0-android'
-
+    implementation "com.googlecode.libphonenumber:libphonenumber:$libPhonenumberVersion"
+    implementation "com.googlecode.libphonenumber:geocoder:$geocoderVersion"
+    implementation "com.google.guava:guava:$guavaVersion"
 }

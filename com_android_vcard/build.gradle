@@ -1,6 +1,5 @@
 apply from: '../constants.gradle'
 apply plugin: 'com.android.library'
-apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion project.ext.compileSdkVersion
@@ -22,13 +21,4 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-}
-
-publish {
-    userOrg = 'gongwen92'      //bintray注册的用户名
-    groupId = 'com.gongwen'         //compile引用时的第1部分groupId
-    artifactId = 'marqueelibrary'     //compile引用时的第2部分项目名
-    publishVersion = project.ext.versionName    //compile引用时的第3部分版本号
-    desc = 'This is the marqueeview library'
-    website = 'https://github.com/gongwen/MarqueeViewDemo'
 }

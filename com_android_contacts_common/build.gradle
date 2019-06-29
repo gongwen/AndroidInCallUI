@@ -1,6 +1,5 @@
 apply from: '../constants.gradle'
 apply plugin: 'com.android.library'
-apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion project.ext.compileSdkVersion
@@ -32,16 +31,7 @@ dependencies {
     implementation project(':com_android_phone_common')
     implementation project(':com_android_vcard')
 
-    implementation 'com.googlecode.libphonenumber:libphonenumber:8.10.14'
-    implementation 'com.googlecode.libphonenumber:geocoder:2.120'
-    implementation 'com.google.guava:guava:28.0-android'
-}
-
-publish {
-    userOrg = 'gongwen92'      //bintray注册的用户名
-    groupId = 'com.gongwen'         //compile引用时的第1部分groupId
-    artifactId = 'marqueelibrary'     //compile引用时的第2部分项目名
-    publishVersion = project.ext.versionName    //compile引用时的第3部分版本号
-    desc = 'This is the marqueeview library'
-    website = 'https://github.com/gongwen/MarqueeViewDemo'
+    implementation "com.googlecode.libphonenumber:libphonenumber:$libPhonenumberVersion"
+    implementation "com.googlecode.libphonenumber:geocoder:$geocoderVersion"
+    implementation "com.google.guava:guava:$guavaVersion"
 }
