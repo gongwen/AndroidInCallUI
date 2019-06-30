@@ -16,9 +16,8 @@
 
 package com.android.incallui;
 
-import static com.android.incallui.NotificationBroadcastReceiver.*;
-
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -27,6 +26,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.support.v4.app.NotificationCompat;
 import android.telecom.Call.Details;
 import android.telecom.PhoneAccount;
 import android.text.BidiFormatter;
@@ -37,8 +37,14 @@ import com.android.contacts.common.util.BitmapUtil;
 import com.android.incallui.ContactInfoCache.ContactCacheEntry;
 import com.android.incallui.ContactInfoCache.ContactInfoCacheCallback;
 import com.android.incallui.InCallPresenter.InCallState;
-
 import com.google.common.base.Preconditions;
+
+import static com.android.incallui.NotificationBroadcastReceiver.ACTION_ACCEPT_VIDEO_UPGRADE_REQUEST;
+import static com.android.incallui.NotificationBroadcastReceiver.ACTION_ANSWER_VIDEO_INCOMING_CALL;
+import static com.android.incallui.NotificationBroadcastReceiver.ACTION_ANSWER_VOICE_INCOMING_CALL;
+import static com.android.incallui.NotificationBroadcastReceiver.ACTION_DECLINE_INCOMING_CALL;
+import static com.android.incallui.NotificationBroadcastReceiver.ACTION_DECLINE_VIDEO_UPGRADE_REQUEST;
+import static com.android.incallui.NotificationBroadcastReceiver.ACTION_HANG_UP_ONGOING_CALL;
 
 /**
  * This class adds Notifications to the status bar for the in-call experience.
@@ -65,6 +71,8 @@ public class StatusBarNotifier implements InCallPresenter.InCallStateListener,
     private String mSavedContentTitle;
     private String mCallId = null;
     private InCallState mInCallState;
+    private String notificationChannelId = "InCallUI_ChannelId";
+    private String notificationChannelName = "InCallUI_ChannelName";
 
     public StatusBarNotifier(Context context, ContactInfoCache contactInfoCache) {
         Preconditions.checkNotNull(context);
@@ -72,6 +80,10 @@ public class StatusBarNotifier implements InCallPresenter.InCallStateListener,
         mContactInfoCache = contactInfoCache;
         mNotificationManager =
                 (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(notificationChannelId, notificationChannelName, NotificationManager.IMPORTANCE_HIGH);
+            mNotificationManager.createNotificationChannel(channel);
+        }
         mCurrentNotification = NOTIFICATION_NONE;
     }
 
@@ -230,7 +242,7 @@ public class StatusBarNotifier implements InCallPresenter.InCallStateListener,
         /*
          * Nothing more to check...build and send it.
          */
-        final Notification.Builder builder = getNotificationBuilder();
+        final NotificationCompat.Builder builder = getNotificationBuilder();
 
         // Set up the main intent to send the user to the in-call screen
         final PendingIntent inCallPendingIntent = createLaunchPendingIntent();
@@ -277,7 +289,7 @@ public class StatusBarNotifier implements InCallPresenter.InCallStateListener,
     }
 
     private void createIncomingCallNotification(
-            Call call, int state, Notification.Builder builder) {
+            Call call, int state, NotificationCompat.Builder builder) {
         if (state == Call.State.ACTIVE) {
             builder.setUsesChronometer(true);
             builder.setWhen(call.getConnectTimeMillis());
@@ -359,7 +371,7 @@ public class StatusBarNotifier implements InCallPresenter.InCallStateListener,
         return contactInfo.name;
     }
 
-    private void addPersonReference(Notification.Builder builder, ContactCacheEntry contactInfo,
+    private void addPersonReference(NotificationCompat.Builder builder, ContactCacheEntry contactInfo,
             Call call) {
         if (contactInfo.lookupUri != null) {
             builder.addPerson(contactInfo.lookupUri.toString());
@@ -463,7 +475,7 @@ public class StatusBarNotifier implements InCallPresenter.InCallStateListener,
         return call;
     }
 
-    private void addAnswerAction(Notification.Builder builder) {
+    private void addAnswerAction(NotificationCompat.Builder builder) {
         Log.d(this, "Will show \"answer\" action in the incoming call Notification");
 
         PendingIntent answerVoicePendingIntent = createNotificationPendingIntent(
@@ -473,7 +485,7 @@ public class StatusBarNotifier implements InCallPresenter.InCallStateListener,
                 answerVoicePendingIntent);
     }
 
-    private void addDismissAction(Notification.Builder builder) {
+    private void addDismissAction(NotificationCompat.Builder builder) {
         Log.d(this, "Will show \"dismiss\" action in the incoming call Notification");
 
         PendingIntent declinePendingIntent =
@@ -483,7 +495,7 @@ public class StatusBarNotifier implements InCallPresenter.InCallStateListener,
                 declinePendingIntent);
     }
 
-    private void addHangupAction(Notification.Builder builder) {
+    private void addHangupAction(NotificationCompat.Builder builder) {
         Log.d(this, "Will show \"hang-up\" action in the ongoing active call Notification");
 
         PendingIntent hangupPendingIntent =
@@ -493,7 +505,7 @@ public class StatusBarNotifier implements InCallPresenter.InCallStateListener,
                 hangupPendingIntent);
     }
 
-    private void addVideoCallAction(Notification.Builder builder) {
+    private void addVideoCallAction(NotificationCompat.Builder builder) {
         Log.i(this, "Will show \"video\" action in the incoming call Notification");
 
         PendingIntent answerVideoPendingIntent = createNotificationPendingIntent(
@@ -503,7 +515,7 @@ public class StatusBarNotifier implements InCallPresenter.InCallStateListener,
                 answerVideoPendingIntent);
     }
 
-    private void addVoiceAction(Notification.Builder builder) {
+    private void addVoiceAction(NotificationCompat.Builder builder) {
         Log.d(this, "Will show \"voice\" action in the incoming call Notification");
 
         PendingIntent answerVoicePendingIntent = createNotificationPendingIntent(
@@ -513,7 +525,7 @@ public class StatusBarNotifier implements InCallPresenter.InCallStateListener,
                 answerVoicePendingIntent);
     }
 
-    private void addAcceptUpgradeRequestAction(Notification.Builder builder) {
+    private void addAcceptUpgradeRequestAction(NotificationCompat.Builder builder) {
         Log.i(this, "Will show \"accept upgrade\" action in the incoming call Notification");
 
         PendingIntent acceptVideoPendingIntent = createNotificationPendingIntent(
@@ -522,7 +534,7 @@ public class StatusBarNotifier implements InCallPresenter.InCallStateListener,
                 acceptVideoPendingIntent);
     }
 
-    private void addDismissUpgradeRequestAction(Notification.Builder builder) {
+    private void addDismissUpgradeRequestAction(NotificationCompat.Builder builder) {
         Log.i(this, "Will show \"dismiss upgrade\" action in the incoming call Notification");
 
         PendingIntent declineVideoPendingIntent = createNotificationPendingIntent(
@@ -534,7 +546,7 @@ public class StatusBarNotifier implements InCallPresenter.InCallStateListener,
     /**
      * Adds fullscreen intent to the builder.
      */
-    private void configureFullScreenIntent(Notification.Builder builder, PendingIntent intent,
+    private void configureFullScreenIntent(NotificationCompat.Builder builder, PendingIntent intent,
             Call call) {
         // Ok, we actually want to launch the incoming call
         // UI at this point (in addition to simply posting a notification
@@ -581,8 +593,8 @@ public class StatusBarNotifier implements InCallPresenter.InCallStateListener,
         }
     }
 
-    private Notification.Builder getNotificationBuilder() {
-        final Notification.Builder builder = new Notification.Builder(mContext);
+    private NotificationCompat.Builder getNotificationBuilder() {
+        final NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext,notificationChannelId);
         builder.setOngoing(true);
 
         // Make the notification prioritized over the other normal notifications.
