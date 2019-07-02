@@ -2,7 +2,5 @@ include ':app',
         ':com_android_common',
         ':com_android_phone_common',
         ':com_android_vcard',
-        ':telephony',
         ':com_android_contacts_common',
-        ':dialer',
         ':incallui'

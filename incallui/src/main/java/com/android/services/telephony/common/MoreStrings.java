@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.android.services.telephony.common.MoreStrings;
+package com.android.services.telephony.common;
 /**
  * Static utility methods for Strings.
  */

@@ -97,6 +97,7 @@ public class AnswerPresenter extends Presenter<AnswerPresenter.AnswerUi>
         // no-op
     }
 
+    @Override
     public void onSessionModificationStateChange(int sessionModificationState) {
         boolean isUpgradePending = sessionModificationState ==
                 Call.SessionModificationState.RECEIVED_UPGRADE_TO_VIDEO_REQUEST;

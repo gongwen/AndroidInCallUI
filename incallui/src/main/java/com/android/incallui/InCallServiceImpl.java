@@ -33,33 +33,39 @@ public class InCallServiceImpl extends InCallService {
 
     @Override
     public void onCallAudioStateChanged(CallAudioState audioState) {
+        Log.e(this, "onCallAudioStateChanged:" + audioState.toString());
         AudioModeProvider.getInstance().onAudioStateChanged(audioState);
     }
 
     @Override
     public void onBringToForeground(boolean showDialpad) {
+        Log.e(this, "onBringToForeground:" + showDialpad);
         InCallPresenter.getInstance().onBringToForeground(showDialpad);
     }
 
     @Override
     public void onCallAdded(Call call) {
+        Log.e(this, "onCallAdded:" + call.toString());
         CallList.getInstance().onCallAdded(call);
         InCallPresenter.getInstance().onCallAdded(call);
     }
 
     @Override
     public void onCallRemoved(Call call) {
+        Log.e(this, "onCallRemoved:" + call.toString());
         CallList.getInstance().onCallRemoved(call);
         InCallPresenter.getInstance().onCallRemoved(call);
     }
 
     @Override
     public void onCanAddCallChanged(boolean canAddCall) {
+        Log.e(this, "onCanAddCallChanged:" + canAddCall);
         InCallPresenter.getInstance().onCanAddCallChanged(canAddCall);
     }
 
     @Override
     public IBinder onBind(Intent intent) {
+        Log.e(this, "onBind:" + intent.toString());
         final Context context = getApplicationContext();
         final ContactInfoCache contactInfoCache = ContactInfoCache.getInstance(context);
         InCallPresenter.getInstance().setUp(
@@ -79,6 +85,7 @@ public class InCallServiceImpl extends InCallService {
 
     @Override
     public boolean onUnbind(Intent intent) {
+        Log.e(this, "onUnbind:" + intent.toString());
         super.onUnbind(intent);
 
         InCallPresenter.getInstance().onServiceUnbind();

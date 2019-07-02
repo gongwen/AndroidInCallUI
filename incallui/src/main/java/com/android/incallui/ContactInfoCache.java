@@ -583,9 +583,9 @@ public class ContactInfoCache implements ContactsAsyncHelper.OnImageLoadComplete
         @Override
         public String toString() {
             return MoreObjects.toStringHelper(this)
-                    .add("name", com.android.services.telephony.common.MoreStrings.MoreStrings.toSafeString(name))
-                    .add("number", com.android.services.telephony.common.MoreStrings.MoreStrings.toSafeString(number))
-                    .add("location", com.android.services.telephony.common.MoreStrings.MoreStrings.toSafeString(location))
+                    .add("name", com.android.services.telephony.common.MoreStrings.toSafeString(name))
+                    .add("number", com.android.services.telephony.common.MoreStrings.toSafeString(number))
+                    .add("location", com.android.services.telephony.common.MoreStrings.toSafeString(location))
                     .add("label", label)
                     .add("photo", photo)
                     .add("isSipCall", isSipCall)

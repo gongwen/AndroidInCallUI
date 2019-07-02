@@ -24,7 +24,6 @@
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <action android:name="android.intent.action.DIAL" />
-                <action android:name="callerincall" />
 
                 <data android:scheme="tel" />
             </intent-filter>
